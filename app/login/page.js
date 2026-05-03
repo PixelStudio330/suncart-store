@@ -6,17 +6,21 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Sun, LogIn, Eye, EyeOff } from "lucide-react";
+import { toast, Toaster } from "sonner"; //
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // Toggle state
+  const [showPassword, setShowPassword] = useState(false); 
   const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
+
+    // Create a loading toast
+    const toastId = toast.loading("Verifying credentials...");
 
     const { data, error: authError } = await authClient.signIn.email({
       email,
@@ -24,21 +28,40 @@ export default function LoginPage() {
     });
 
     if (authError) {
-      setError(authError.message || "Invalid credentials. Please try again.");
+      const errorMessage = authError.message || "Invalid credentials. Please try again.";
+      setError(errorMessage);
+      toast.error("Login Failed", {
+        description: errorMessage,
+        id: toastId, // Replaces the loading toast
+      });
     } else {
+      toast.success("Welcome back!", {
+        description: "Redirecting you to the sun...",
+        id: toastId,
+      });
       router.push("/");
     }
   };
 
   const handleGoogleLogin = async () => {
-  await authClient.signIn.social({ 
-    provider: "google",
-    callbackURL: "/", 
-  });
-};
+    try {
+      await authClient.signIn.social({ 
+        provider: "google",
+        callbackURL: "/", 
+      });
+    } catch (err) {
+      toast.error("Google login failed. Please try again.");
+    }
+  };
 
   return (
     <main className="min-h-screen bg-[#F7BCB0] flex items-center justify-center p-6 relative overflow-hidden">
+      {/* 
+         IMPORTANT: Place the Toaster here so it can render the notifications.
+         The styling matches your "Honey Haze" and "Midnight Bloom" vibes.
+      */}
+      <Toaster position="top-center" richColors closeButton />
+
       {/* Background Decorative Blurs */}
       <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-[#EAA624]/20 rounded-full blur-[120px]" />
       <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-[#C85555]/20 rounded-full blur-[120px]" />
@@ -56,6 +79,7 @@ export default function LoginPage() {
           <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">The sun is waiting for you</p>
         </div>
 
+        {/* Keeping the inline error for extra accessibility, but toasts will now pop up too */}
         {error && (
           <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="mb-6 text-xs font-bold text-red-500 bg-red-50 p-4 rounded-2xl border border-red-100">
             {error}

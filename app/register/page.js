@@ -6,12 +6,10 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Sparkles, ArrowRight, Image as ImageIcon, Eye, EyeOff } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast"; // Added Toaster import
 
 /**
  * RegisterPage Component
- * Adheres to Assignment Category: category-A8-Jackfruit requirements.
- * Ensures Register -> Login redirect flow.
  */
 export default function RegisterPage() {
   const [formData, setFormData] = useState({ name: "", email: "", image: "", password: "" });
@@ -25,7 +23,8 @@ export default function RegisterPage() {
     setError("");
     setLoading(true);
 
-    const { data, error: authError } = await authClient.signUp.email({
+    // 1. Create a promise-based toast for the registration flow
+    const registrationPromise = authClient.signUp.email({
       email: formData.email,
       password: formData.password,
       name: formData.name,
@@ -33,21 +32,28 @@ export default function RegisterPage() {
       dontLogin: true, 
     });
 
+    toast.promise(registrationPromise, {
+      loading: 'Creating your summer account...',
+      success: 'Account created! Please log in.',
+      error: (err) => err.message || "Registration failed",
+    });
+
+    const { data, error: authError } = await registrationPromise;
+
     if (authError) {
       setLoading(false);
       setError(authError.message || "Registration failed. Please try again.");
-      toast.error(authError.message || "Registration failed");
     } else {
+      // 2. Ensure session is cleared if 'dontLogin' didn't fully prevent it 
       await authClient.signOut(); 
       
       setLoading(false);
-      toast.success("Account created successfully! Please log in to continue.");
       router.push("/login");
     }
   };
 
   const handleGoogleLogin = async () => {
-  
+    toast.loading("Redirecting to Google...");
     await authClient.signIn.social({
       provider: "google",
       callbackURL: "/", 
@@ -56,6 +62,9 @@ export default function RegisterPage() {
 
   return (
     <main className="min-h-screen bg-[#F7BCB0] flex items-center justify-center p-6 relative overflow-hidden">
+      {/* 3. Added Toaster Component to render the notifications */}
+      <Toaster position="top-center" reverseOrder={false} />
+
       {/* Aesthetic Background Decorations */}
       <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-[#EAA624]/20 rounded-full blur-[120px]" />
       <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-[#C85555]/20 rounded-full blur-[120px]" />
@@ -104,7 +113,7 @@ export default function RegisterPage() {
               className="w-full px-6 py-4 rounded-2xl bg-white border border-slate-100 focus:outline-none focus:ring-2 focus:ring-[#EAA624] transition-all placeholder:text-slate-500 font-medium text-slate-800"
               onChange={(e) => setFormData({ ...formData, image: e.target.value })}
             />
-            <ImageIcon className="absolute right-5 top-4.5 w-5 h-5 text-slate-400" />
+            <ImageIcon className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
           </div>
 
           <div className="relative">
@@ -118,7 +127,7 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-5 top-4.5 text-slate-400 hover:text-[#C85555] transition-colors"
+              className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#C85555] transition-colors"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -142,7 +151,6 @@ export default function RegisterPage() {
             </span>
           </div>
 
-          {/* Social Login Requirement */}
           <button
             type="button"
             onClick={handleGoogleLogin}
@@ -153,7 +161,6 @@ export default function RegisterPage() {
           </button>
         </div>
 
-        {/* Link to Login Requirement */}
         <p className="mt-8 text-center text-sm font-bold text-slate-400 uppercase tracking-tighter">
           Already a member?{" "}
           <Link href="/login" className="text-[#EAA624] hover:text-[#d49520] transition-colors">
