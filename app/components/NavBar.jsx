@@ -27,7 +27,7 @@ export default function Header() {
   };
 
   const leftLinks = [
-    { name: "Shop", href: "/" },
+    { name: "Home", href: "/" },
     { name: "Products", href: "/" },
   ];
 
