@@ -9,6 +9,7 @@ import ProductShowcase from './components/ProductShowcase';
 import ProductBrand from './components/ProductBrand';
 import Footer from './components/Footer';
 import SummerCareTips from './components/SummerCareTips';
+import OfferSlider from './components/OfferSlider';
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
@@ -112,6 +113,10 @@ export default function Home() {
           </svg>
         </div>
       </section>
+
+      <div className="relative bg-white pt-10 pb-12">
+        <OfferSlider />
+      </div>
 
       {/* Dynamic Products Grid Section */}
       <section className="relative z-50 px-6 pb-12 -mt-8 pt-12">
