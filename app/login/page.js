@@ -5,12 +5,13 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Sun, LogIn } from "lucide-react";
+import { Sun, LogIn, Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // Toggle state
   const router = useRouter();
 
   const handleLogin = async (e) => {
@@ -35,6 +36,10 @@ export default function LoginPage() {
 
   return (
     <main className="min-h-screen bg-[#F7BCB0] flex items-center justify-center p-6 relative overflow-hidden">
+      {/* Background Decorative Blurs */}
+      <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-[#EAA624]/20 rounded-full blur-[120px]" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-[#C85555]/20 rounded-full blur-[120px]" />
+
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -57,14 +62,25 @@ export default function LoginPage() {
         <form onSubmit={handleLogin} className="space-y-4">
           <input 
             type="email" placeholder="Email Address" required
-            className="w-full px-6 py-4 rounded-2xl bg-white border border-slate-100 focus:outline-none focus:ring-2 focus:ring-[#EAA624] transition-all font-medium"
+            className="w-full px-6 py-4 rounded-2xl bg-white border border-slate-100 focus:outline-none focus:ring-2 focus:ring-[#EAA624] transition-all font-medium placeholder:text-slate-500 text-slate-800"
             onChange={(e) => setEmail(e.target.value)}
           />
-          <input 
-            type="password" placeholder="Password" required
-            className="w-full px-6 py-4 rounded-2xl bg-white border border-slate-100 focus:outline-none focus:ring-2 focus:ring-[#EAA624] transition-all font-medium"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          
+          <div className="relative">
+            <input 
+              type={showPassword ? "text" : "password"} 
+              placeholder="Password" required
+              className="w-full px-6 py-4 rounded-2xl bg-white border border-slate-100 focus:outline-none focus:ring-2 focus:ring-[#EAA624] transition-all font-medium placeholder:text-slate-500 text-slate-800"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button 
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-5 top-4 text-slate-400 hover:text-[#C85555] transition-colors"
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
 
           <button 
             type="submit"
