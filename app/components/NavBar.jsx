@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBag, Menu, X, ArrowRight, User, LogOut } from "lucide-react";
+import { ShoppingBag, Menu, X, User, LogOut } from "lucide-react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
@@ -12,7 +12,6 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
 
-  // BetterAuth Session Hook
   const { data: session, isPending } = authClient.useSession();
 
   useEffect(() => {
@@ -23,10 +22,10 @@ export default function Header() {
 
   const handleLogout = async () => {
     await authClient.signOut();
+    setMobileMenuOpen(false);
     router.push("/login");
   };
 
-  // Basic navigation links
   const leftLinks = [
     { name: "Shop", href: "/" },
     { name: "Products", href: "/" },
@@ -93,7 +92,6 @@ export default function Header() {
               </button>
             </div>
 
-            {/* CENTER SECTION (Empty spacer for floating logo) */}
             {!isScrolled && <div className="w-24 hidden md:block" />}
 
             {/* RIGHT SECTION */}
@@ -101,12 +99,12 @@ export default function Header() {
               {isPending ? (
                 <div className="w-8 h-8 rounded-full bg-slate-100 animate-pulse" />
               ) : session ? (
-                // LOGGED IN STATE
                 <div className="flex items-center gap-4">
-                  <Link href="/my-profile" className="flex items-center gap-2 group">
+                 
+                  <Link href="/profile" className="flex items-center gap-2 group">
                     <div className="text-right hidden lg:block">
                       <p className="text-[10px] font-black text-[#C85555] uppercase leading-none">Hello,</p>
-                      <p className="text-[12px] font-bold text-slate-700 truncate max-w-[80px]">{session.user.name.split(' ')[0]}</p>
+                      <p className="text-[12px] font-bold text-slate-700 truncate max-w-[80px]">{session.user.name?.split(' ')[0]}</p>
                     </div>
                     <div className="w-10 h-10 rounded-full border-2 border-[#EAA624] overflow-hidden group-hover:scale-110 transition-transform">
                       <img 
@@ -125,7 +123,6 @@ export default function Header() {
                   </button>
                 </div>
               ) : (
-                // LOGGED OUT STATE
                 <div className="hidden md:flex items-center gap-6">
                   <Link href="/login" className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C85555]/70 hover:text-[#C85555]">
                     Login
@@ -165,7 +162,7 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* --- MOBILE MENU --- */}
+      {/* MOBILE MENU */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div 
@@ -184,7 +181,7 @@ export default function Header() {
             </div>
             
             <div className="flex flex-col gap-6">
-              {leftLinks.map((link, idx) => (
+              {leftLinks.map((link) => (
                 <Link key={link.name} href={link.href} onClick={() => setMobileMenuOpen(false)} className="text-4xl font-black uppercase text-[#C85555]">
                   {link.name}
                 </Link>
@@ -194,7 +191,8 @@ export default function Header() {
               
               {session ? (
                 <>
-                  <Link href="/my-profile" onClick={() => setMobileMenuOpen(false)} className="text-4xl font-black uppercase text-white italic">Profile</Link>
+                  
+                  <Link href="/profile" onClick={() => setMobileMenuOpen(false)} className="text-4xl font-black uppercase text-white italic">Profile</Link>
                   <button onClick={handleLogout} className="text-left text-4xl font-black uppercase text-[#C85555]">Logout</button>
                 </>
               ) : (

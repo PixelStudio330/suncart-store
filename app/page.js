@@ -7,7 +7,7 @@ import products from '@/data/products.json';
 import ProductCard from './components/ProductCard';
 import ProductShowcase from './components/ProductShowcase'; 
 import ProductBrand from './components/ProductBrand';
-
+import Footer from './components/Footer';
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
@@ -170,6 +170,9 @@ export default function Home() {
       {/* Brand Partners Showcase */}
       <div className="-mt-16">
         <ProductBrand />
+      </div>
+      <div>
+        <Footer />
       </div>
 
     </main>
