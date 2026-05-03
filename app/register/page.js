@@ -30,7 +30,7 @@ export default function RegisterPage() {
       password: formData.password,
       name: formData.name,
       image: formData.image,
-      dontLogin: true, // This *should* work, but we'll add a safety net below
+      dontLogin: true, 
     });
 
     if (authError) {
