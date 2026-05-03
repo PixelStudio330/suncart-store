@@ -31,8 +31,11 @@ export default function LoginPage() {
   };
 
   const handleGoogleLogin = async () => {
-    await authClient.signIn.social({ provider: "google" });
-  };
+  await authClient.signIn.social({ 
+    provider: "google",
+    callbackURL: "/", 
+  });
+};
 
   return (
     <main className="min-h-screen bg-[#F7BCB0] flex items-center justify-center p-6 relative overflow-hidden">

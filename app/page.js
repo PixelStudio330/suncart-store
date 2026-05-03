@@ -8,6 +8,7 @@ import ProductCard from './components/ProductCard';
 import ProductShowcase from './components/ProductShowcase'; 
 import ProductBrand from './components/ProductBrand';
 import Footer from './components/Footer';
+import SummerCareTips from './components/SummerCareTips';
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
@@ -167,6 +168,10 @@ export default function Home() {
         </div>
       </section>
 
+      
+<div className="relative bg-gradient-to-b from-white to-[#FFF9F0]">
+  <SummerCareTips />
+</div>
       {/* Brand Partners Showcase */}
       <div className="-mt-16">
         <ProductBrand />

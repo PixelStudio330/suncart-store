@@ -128,7 +128,7 @@ export default function Header() {
                     Login
                   </Link>
                   <Link href="/register" className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#EAA624] hover:text-[#C85555]">
-                    Join
+                    Register
                   </Link>
                 </div>
               )}

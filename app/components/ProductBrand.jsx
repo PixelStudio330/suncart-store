@@ -65,13 +65,15 @@ const Popular = () => {
               key={`${brand.id}-${index}`} 
               whileHover={{ y: -12, scale: 1.02 }}
               style={{ 
-                backgroundColor: `${brand.color}15`, 
+                /* Increased opacity slightly to compensate for removing the blur */
+                backgroundColor: `${brand.color}25`, 
                 borderColor: brand.color,
               }}
-              className="relative w-80 h-52 backdrop-blur-md rounded-[3.5rem] border-4 flex flex-col items-center justify-center transition-all duration-500 overflow-hidden group/card"
+              /* REMOVED backdrop-blur-md to fix the "glowing box" artifact on mobile */
+              className="relative w-80 h-52 rounded-[3.5rem] border-4 flex flex-col items-center justify-center transition-all duration-500 overflow-hidden group/card"
             >
               {/* Glass Shine */}
-              <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/40 to-transparent pointer-events-none" />
+              <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/30 to-transparent pointer-events-none" />
 
               <div className="relative z-10 flex flex-col items-center">
                 <motion.div 
@@ -86,7 +88,7 @@ const Popular = () => {
                   <h4 className="font-black text-2xl text-slate-900 leading-tight tracking-tighter">
                     {brand.name}
                   </h4>
-                  <p className="text-[10px] text-slate-700 font-bold uppercase tracking-widest mt-2 bg-white/60 px-3 py-1 rounded-full border border-white/40">
+                  <p className="text-[10px] text-slate-700 font-bold uppercase tracking-widest mt-2 bg-white/80 px-3 py-1 rounded-full border border-white/20">
                     {brand.desc}
                   </p>
                 </div>

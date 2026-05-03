@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "icon": "Droplets",
+    "text": "Stay Hydrated",
+    "detail": "Drink at least three liters of water daily to keep your skin glowing and energy high.",
+    "color": "bg-blue-100 text-blue-600"
+  },
+  {
+    "id": 2,
+    "icon": "Sun",
+    "text": "SPF is a Must",
+    "detail": "Prioritize protection through the regular application of SPF 50+ sunscreen, even indoors.",
+    "color": "bg-orange-100 text-orange-600"
+  },
+  {
+    "id": 3,
+    "icon": "Wind",
+    "text": "Wear Linen",
+    "detail": "Stay cool in breathable, natural fabrics like linen and cotton to let your skin breathe.",
+    "color": "bg-green-100 text-green-600"
+  },
+  {
+    "id": 4,
+    "icon": "Sparkles",
+    "text": "Cool Down",
+    "detail": "Use protective accessories like hats and refreshing facial mist sprays during hot weather.",
+    "color": "bg-purple-100 text-purple-600"
+  }
+]
