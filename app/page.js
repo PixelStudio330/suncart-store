@@ -1,65 +1,157 @@
-import Image from "next/image";
+"use client";
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
+import products from '@/data/products.json';
+import Nav from './components/NavBar';
+import ProductCard from './components/ProductCard';
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
+    <main className="min-h-screen bg-white">
+      {/* Navigation */}
+      <Nav />
+
+      {/* Hero Banner Section */}
+      <section className="relative flex flex-col items-center justify-center min-h-screen px-4 text-center overflow-hidden bg-[#F7BCB0]">
+        {/* Background Layer */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <img 
+            src="/img/hero.png" 
+            className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay" 
+            alt="Summer Background" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-white/40 z-10" />
+        </div>
+
+        {/* Hero Content - Higher position and Floating Animation */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} 
+          animate={{ 
+            opacity: 1, 
+            y: [0, -15, 0], // The Floating Loop
+          }} 
+          transition={{
+            opacity: { duration: 0.8 },
+            y: {
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }
+          }}
+          className="relative z-30 flex flex-col items-center -mt-24 md:-mt-32" // Pulled text up
+        >
+          {/* Badge */}
+          <motion.span 
+            whileHover={{ scale: 1.05 }}
+            className="bg-[#C85555] text-white px-8 py-3 rounded-full text-[11px] font-black uppercase tracking-[0.5em] mb-16 inline-flex items-center gap-3 shadow-[0_20px_40px_rgba(200,85,85,0.2)] border border-white/30 backdrop-blur-sm"
+          >
+            <span className="flex items-center gap-3">
+              <Sparkles className="w-4 h-4 text-[#EAA624]" /> Tropical Drop Live
+            </span>
+          </motion.span>
+          
+          <h1 className="relative flex flex-col items-center">
+            {/* SunCart */}
+            <span className="text-[15vw] md:text-[13rem] font-black uppercase tracking-[-0.07em] leading-[0.85] text-white drop-shadow-[0_15px_30px_rgba(0,0,0,0.2)]">
+              SunCart
+            </span>
+            
+            {/* Store */}
+            <span className="text-[12vw] md:text-[9rem] font-black uppercase tracking-[-0.04em] leading-[0.9] text-white/90 drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)]">
+              Store
+            </span>
+
+            {/* Subtitle */}
+            <div className="relative mt-12 group">
+              <span className="text-3xl md:text-5xl text-white font-serif italic lowercase tracking-tight drop-shadow-md">
+                your summer essentials 
+                <span className="block md:inline font-light opacity-80 md:ml-4">— delivered.</span>
+              </span>
+              
+              <div className="absolute -top-10 -right-16 md:-right-24 rotate-12 bg-white/20 backdrop-blur-lg border border-white/40 px-4 py-1 rounded-xl shadow-lg">
+                <span className="text-[12px] font-bold text-white italic uppercase tracking-widest">
+                  EST. 2026
+                </span>
+              </div>
+            </div>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+        </motion.div>
+
+        {/* Floating Elements Layer - UNCHANGED POSITIONS */}
+        <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden">
+          <motion.img 
+            src="/img/coco.png" 
+            animate={{ y: [-12, 12, -12], rotate: [-15, -12, -15] }} 
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} 
+            className="absolute w-full h-full object-contain scale-[0.5] top-[10%] left-[-30%] md:left-[-39%] drop-shadow-2xl origin-center" 
+            alt=""
+          />
+          <motion.img 
+            src="/img/green-coc.png" 
+            animate={{ y: [-12, 12, -12], rotate: [18, 20, 18] }} 
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} 
+            className="absolute w-full h-full object-contain scale-[0.45] top-[15%] left-[-15%] md:left-[-30%] drop-shadow-2xl origin-center" 
+            alt=""
+          />
+
+          <motion.img 
+            src="/img/shell.png" 
+            animate={{ y: [10, -10, 10], rotate: [20, 25, 20] }} 
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} 
+            className="absolute w-full h-full object-contain scale-[0.25] top-[-20%] right-[-30%] md:right-[-40%] drop-shadow-xl origin-center" 
+            alt=""
+          />
+          <motion.img 
+            src="/img/starwhite.png" 
+            animate={{ y: [-15, 15, -15], rotate: [-10, -5, -10] }} 
+            transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }} 
+            className="absolute w-full h-full object-contain scale-[0.3] top-[-30%] right-[-25%] md:right-[-33%] drop-shadow-xl origin-center" 
+            alt=""
+          />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="absolute bottom-0 left-0 w-full z-40 translate-y-[1px]">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-[calc(135%+1.3px)] h-[180px] fill-white">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" />
+          </svg>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Dynamic Products Grid Section */}
+      <section className="relative z-50 px-6 pb-32 -mt-24">
+        <div className="container mx-auto">
+          {/* Section Header */}
+          <div className="flex flex-col items-center mb-16 text-center">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-5xl md:text-7xl font-black text-[#C85555] uppercase tracking-tighter mb-4"
+            >
+              The Summer <span className="text-[#EAA624]">Selection</span>
+            </motion.h2>
+            <p className="text-slate-500 font-medium max-w-md leading-relaxed">
+              Hand-picked essentials crafted for the sun-seekers and the dreamers.
+            </p>
+          </div>
+
+          {/* Grid mapped from products.json */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-20 bg-[#FDF5F0] border-t border-[#F7BCB0]/20 text-center">
+        <p className="text-[11px] font-black uppercase tracking-[0.4em] text-[#C85555]/40">
+          SunCart Store • All Rights Reserved 2026
+        </p>
+      </footer>
+    </main>
   );
 }
