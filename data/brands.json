@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "SunShade",
+    "logo": "🕶️",
+    "desc": "Premium Eye Protection",
+    "color": "#EAA624",
+    "bgOpacity": "0.4"
+  },
+  {
+    "id": 2,
+    "name": "GlowGuard",
+    "logo": "🧴",
+    "desc": "Eco-Friendly Skincare",
+    "color": "#C85555",
+    "bgOpacity": "0.4"
+  },
+  {
+    "id": 3,
+    "name": "IslandVibe",
+    "logo": "🏝️",
+    "desc": "Ethical Summer Wear",
+    "color": "#008080",
+    "bgOpacity": "0.4"
+  },
+  {
+    "id": 4,
+    "name": "AquaCarry",
+    "logo": "🎒",
+    "desc": "Waterproof Tech",
+    "color": "#D64076",
+    "bgOpacity": "0.4"
+  },
+  {
+    "id": 5,
+    "name": "CoralSafe",
+    "logo": "🪸",
+    "desc": "Marine-Safe SPF",
+    "color": "#008080",
+    "bgOpacity": "0.3"
+  },
+  {
+    "id": 6,
+    "name": "PeakPolar",
+    "logo": "🏔️",
+    "desc": "Arctic Grade Gear",
+    "color": "#C85555",
+    "bgOpacity": "0.4"
+  }
+]

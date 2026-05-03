@@ -2,12 +2,18 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBag, Menu, X, ArrowRight } from "lucide-react";
+import { ShoppingBag, Menu, X, ArrowRight, User, LogOut } from "lucide-react";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
+
+  // BetterAuth Session Hook
+  const { data: session, isPending } = authClient.useSession();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);
@@ -15,19 +21,16 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Left side navigation
+  const handleLogout = async () => {
+    await authClient.signOut();
+    router.push("/login");
+  };
+
+  // Basic navigation links
   const leftLinks = [
     { name: "Shop", href: "/" },
-    { name: "Collections", href: "/" },
+    { name: "Products", href: "/" },
   ];
-
-  // Right side navigation
-  const rightLinks = [
-    { name: "Login", href: "/login" },
-    { name: "Register", href: "/register" },
-  ];
-
-  const allLinks = [...leftLinks, ...rightLinks];
 
   return (
     <>
@@ -90,40 +93,48 @@ export default function Header() {
               </button>
             </div>
 
-            {/* CENTER SECTION  */}
-            {isScrolled && (
-              <motion.div 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="hidden lg:flex items-center gap-8"
-              >
-                {allLinks.map((link) => (
-                  <Link 
-                    key={link.name} 
-                    href={link.href} 
-                    className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-[#C85555] transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </motion.div>
-            )}
-
+            {/* CENTER SECTION (Empty spacer for floating logo) */}
             {!isScrolled && <div className="w-24 hidden md:block" />}
 
             {/* RIGHT SECTION */}
-            <div className="flex items-center justify-end gap-6 md:gap-8 flex-1">
-              <div className="hidden md:flex items-center gap-8">
-                 {!isScrolled && rightLinks.map((link) => (
-                  <Link 
-                    key={link.name} 
-                    href={link.href} 
-                    className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C85555]/70 hover:text-[#C85555] transition-colors"
-                  >
-                    {link.name}
+            <div className="flex items-center justify-end gap-4 md:gap-8 flex-1">
+              {isPending ? (
+                <div className="w-8 h-8 rounded-full bg-slate-100 animate-pulse" />
+              ) : session ? (
+                // LOGGED IN STATE
+                <div className="flex items-center gap-4">
+                  <Link href="/my-profile" className="flex items-center gap-2 group">
+                    <div className="text-right hidden lg:block">
+                      <p className="text-[10px] font-black text-[#C85555] uppercase leading-none">Hello,</p>
+                      <p className="text-[12px] font-bold text-slate-700 truncate max-w-[80px]">{session.user.name.split(' ')[0]}</p>
+                    </div>
+                    <div className="w-10 h-10 rounded-full border-2 border-[#EAA624] overflow-hidden group-hover:scale-110 transition-transform">
+                      <img 
+                        src={session.user.image || "https://api.dicebear.com/7.x/adventurer/svg?seed=Nyra"} 
+                        alt="Profile" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   </Link>
-                ))}
-              </div>
+                  <button 
+                    onClick={handleLogout}
+                    className="p-2 text-[#C85555] hover:bg-[#C85555]/10 rounded-full transition-colors"
+                    title="Logout"
+                  >
+                    <LogOut size={18} />
+                  </button>
+                </div>
+              ) : (
+                // LOGGED OUT STATE
+                <div className="hidden md:flex items-center gap-6">
+                  <Link href="/login" className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C85555]/70 hover:text-[#C85555]">
+                    Login
+                  </Link>
+                  <Link href="/register" className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#EAA624] hover:text-[#C85555]">
+                    Join
+                  </Link>
+                </div>
+              )}
               
               <Link href="#">
                 <button className={`bg-[#EAA624] text-white rounded-full font-black uppercase tracking-widest hover:bg-[#C85555] transition-all flex items-center gap-2 shadow-lg active:scale-95 ${isScrolled ? 'px-6 py-2.5 text-[11px]' : 'px-5 py-2 text-[10px]'}`}>
@@ -134,7 +145,7 @@ export default function Header() {
             </div>
           </div>
 
-          {/* CENTRAL FLOATING LOGO (Static top state) */}
+          {/* CENTRAL FLOATING LOGO */}
           <AnimatePresence>
             {!isScrolled && (
               <motion.div 
@@ -143,7 +154,7 @@ export default function Header() {
                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[110]"
               >
                 <Link href="/" className="relative group block">
-                  <div className="absolute inset-0 bg-white rounded-full scale-125 shadow-xl group-hover:bg-[#AADCF2] transition-colors duration-500" />
+                  <div className="absolute inset-0 bg-white rounded-full scale-125 shadow-xl group-hover:bg-[#F7BCB0]/40 transition-colors duration-500" />
                   <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center overflow-hidden transition-transform duration-500 group-hover:scale-110">
                     <img src="/img/logo.png" alt="Logo" className="w-full h-full object-contain" />
                   </div>
@@ -171,15 +182,27 @@ export default function Header() {
                 <X size={24} />
               </button>
             </div>
+            
             <div className="flex flex-col gap-6">
-              {allLinks.map((link, idx) => (
-                <motion.div key={link.name} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 + idx * 0.05 }}>
-                  <Link href={link.href} onClick={() => setMobileMenuOpen(false)} className="group flex items-center justify-between text-4xl font-black uppercase text-[#C85555] hover:text-white transition-colors">
-                    {link.name}
-                    <ArrowRight className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </Link>
-                </motion.div>
+              {leftLinks.map((link, idx) => (
+                <Link key={link.name} href={link.href} onClick={() => setMobileMenuOpen(false)} className="text-4xl font-black uppercase text-[#C85555]">
+                  {link.name}
+                </Link>
               ))}
+              
+              <div className="h-px bg-[#C85555]/20 my-4" />
+              
+              {session ? (
+                <>
+                  <Link href="/my-profile" onClick={() => setMobileMenuOpen(false)} className="text-4xl font-black uppercase text-white italic">Profile</Link>
+                  <button onClick={handleLogout} className="text-left text-4xl font-black uppercase text-[#C85555]">Logout</button>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="text-4xl font-black uppercase text-white italic">Login</Link>
+                  <Link href="/register" onClick={() => setMobileMenuOpen(false)} className="text-4xl font-black uppercase text-[#EAA624]">Register</Link>
+                </>
+              )}
             </div>
           </motion.div>
         )}

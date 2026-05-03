@@ -6,6 +6,7 @@ import { Sparkles } from 'lucide-react';
 import products from '@/data/products.json';
 import ProductCard from './components/ProductCard';
 import ProductShowcase from './components/ProductShowcase'; 
+import ProductBrand from './components/ProductBrand';
 
 export default function Home() {
   return (
@@ -40,7 +41,6 @@ export default function Home() {
           }}
           className="relative z-30 flex flex-col items-center -mt-24 md:-mt-32"
         >
-          {/* Badge */}
           <motion.span 
             whileHover={{ scale: 1.05 }}
             className="bg-[#C85555] text-white px-8 py-3 rounded-full text-[11px] font-black uppercase tracking-[0.5em] mb-16 inline-flex items-center gap-3 shadow-[0_20px_40px_rgba(200,85,85,0.2)] border border-white/30 backdrop-blur-sm"
@@ -51,17 +51,13 @@ export default function Home() {
           </motion.span>
           
           <h1 className="relative flex flex-col items-center">
-            {/* SunCart */}
             <span className="text-[15vw] md:text-[13rem] font-black uppercase tracking-[-0.07em] leading-[0.85] text-white drop-shadow-[0_15px_30px_rgba(0,0,0,0.2)]">
               SunCart
             </span>
-            
-            {/* Store */}
             <span className="text-[12vw] md:text-[9rem] font-black uppercase tracking-[-0.04em] leading-[0.9] text-white/90 drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)]">
               Store
             </span>
 
-            {/* Subtitle */}
             <div className="relative mt-12 group">
               <span className="text-3xl md:text-5xl text-white font-serif italic lowercase tracking-tight drop-shadow-md">
                 your summer essentials 
@@ -93,7 +89,6 @@ export default function Home() {
             className="absolute w-full h-full object-contain scale-[0.45] top-[15%] left-[-15%] md:left-[-30%] drop-shadow-2xl origin-center" 
             alt=""
           />
-
           <motion.img 
             src="/img/shell.png" 
             animate={{ y: [10, -10, 10], rotate: [20, 25, 20] }} 
@@ -118,9 +113,8 @@ export default function Home() {
       </section>
 
       {/* Dynamic Products Grid Section */}
-      <section className="relative z-50 px-6 pb-20 -mt-8 pt-12">
+      <section className="relative z-50 px-6 pb-12 -mt-8 pt-12">
         <div className="container mx-auto">
-          {/* Section Header */}
           <div className="flex flex-col items-center mb-16 text-center">
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
@@ -135,7 +129,6 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Grid mapped from products.json */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
@@ -145,9 +138,9 @@ export default function Home() {
       </section>
 
       {/* Popular Products Showcase */}
-      <section className="relative z-50 bg-white pt-20 pb-12">
+      <section className="relative z-50 bg-white pt-10 pb-6"> 
         <div className="container mx-auto">
-          <div className="flex flex-col items-center mb-12 text-center px-6">
+          <div className="flex flex-col items-center mb-10 text-center px-6">
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -155,24 +148,29 @@ export default function Home() {
             >
               Trending Now
             </motion.div>
-              <motion.h2></motion.h2>
-          <div className="flex flex-col items-center mb-16 text-center">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-5xl md:text-7xl font-black text-[#C85555] uppercase tracking-tighter mb-4"
-            >
-              Popular <span className="text-[#EAA624]">Products of The Week</span>
-            </motion.h2>
-            <p className="text-slate-500 font-medium max-w-md leading-relaxed">
-              Hand-picked essentials crafted for the sun-seekers and the dreamers.
-            </p>
-          </div>
+            
+            <div className="flex flex-col items-center text-center">
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-5xl md:text-7xl font-black text-[#C85555] uppercase tracking-tighter mb-4"
+              >
+                Popular <span className="text-[#EAA624]">Products</span>
+              </motion.h2>
+              <p className="text-slate-500 font-medium max-w-md leading-relaxed">
+                Community&apos;s top picks that are making waves this week.
+              </p>
+            </div>
           </div>
           <ProductShowcase products={products} />
         </div>
       </section>
+
+      {/* Brand Partners Showcase */}
+      <div className="-mt-16">
+        <ProductBrand />
+      </div>
 
     </main>
   );
