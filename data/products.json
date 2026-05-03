@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "name": "UV Protection Sunglasses",
+    "brand": "SunShade",
+    "price": 15,
+    "rating": 4.7,
+    "stock": 10,
+    "description": "Stylish UV protection sunglasses perfect for summer outings.",
+    "image": "https://i.pinimg.com/736x/c8/d5/54/c8d55420854377f74ca1458b68de7460.jpg",
+    "category": "Accessories"
+  },
+  {
+    "id": 2,
+    "name": "Beach Straw Hat",
+    "brand": "IslandStyle",
+    "price": 12,
+    "rating": 4.5,
+    "stock": 20,
+    "description": "Classic wide-brim straw hat for maximum sun protection and style.",
+    "image": "https://i.pinimg.com/1200x/df/11/a9/df11a95541327a6eaf64e1b93219bb5b.jpg",
+    "category": "Accessories"
+  },
+  {
+    "id": 3,
+    "name": "Tropical Cotton Shirt",
+    "brand": "IslandVibe",
+    "price": 25,
+    "rating": 4.8,
+    "stock": 15,
+    "description": "Breathable cotton shirt with a vibrant tropical print for hot days.",
+    "image": "https://i.pinimg.com/736x/61/e5/0c/61e50ca0edd4ccc275ae118f74efa70d.jpg",
+    "category": "Apparel"
+  },
+  {
+    "id": 4,
+    "name": "Hydrating SPF 50",
+    "brand": "GlowGuard",
+    "price": 18,
+    "rating": 4.9,
+    "stock": 50,
+    "description": "Non-greasy, water-resistant sunscreen for all-day beach protection.",
+    "image": "https://i.pinimg.com/1200x/c0/9f/84/c09f84217231d3f3e4a48fd69825d2ba.jpg",
+    "category": "Skincare"
+  },
+  {
+    "id": 5,
+    "name": "Waterproof Tote Bag",
+    "brand": "AquaCarry",
+    "price": 30,
+    "rating": 4.6,
+    "stock": 8,
+    "description": "Large capacity waterproof bag to keep your beach essentials dry.",
+    "image": "https://i.pinimg.com/1200x/5a/4f/71/5a4f7104d30917b49db23697560c2b69.jpg",
+    "category": "Accessories"
+  },
+  {
+    "id": 6,
+    "name": "Quick-Dry Beach Towel",
+    "brand": "SandyPaws",
+    "price": 20,
+    "rating": 4.4,
+    "stock": 12,
+    "description": "Microfiber sand-free towel that dries 3x faster than cotton.",
+    "image": "https://i.pinimg.com/736x/24/e6/87/24e6877c130eb4aa927f0be77e6b3763.jpg",
+    "category": "Beach Gear"
+  }
+]
