@@ -1,21 +1,19 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./app/**/*.{js,jsx}",
-    "./components/**/*.{js,jsx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        dragonfruit: "#C85555",
-        tangerine: "#EAA624",
+        dragonfruit: "#D64076", 
+        tangerine: "#FF8C42",
         sun: "#EAA624",
-        sunset: "#F7BCB0",
+        hibiscus: "#C85555",
+        teal: "#008080",
       },
     },
   },
-  plugins: [require("daisyui")],
-  daisyui: {
-    themes: ["light"],
-  },
+  plugins: [],
 };

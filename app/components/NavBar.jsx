@@ -90,7 +90,7 @@ export default function Header() {
               </button>
             </div>
 
-            {/* CENTER SECTION (Only visible on scroll) */}
+            {/* CENTER SECTION  */}
             {isScrolled && (
               <motion.div 
                 initial={{ opacity: 0, y: -10 }}
