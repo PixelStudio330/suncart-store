@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { Sparkles, Image as ImageIcon, User, CheckCircle, X } from "lucide-react";
 import { toast } from "react-hot-toast";
 
-// 1. We create a sub-component for the form itself
 const ProfileUpdateForm = ({ initialData }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -16,10 +15,15 @@ const ProfileUpdateForm = ({ initialData }) => {
     image: initialData?.image || ""
   });
 
+  const isUnchanged = 
+    formData.name === (initialData?.name || "") && 
+    formData.image === (initialData?.image || "");
+
   const handleUpdate = async (e) => {
     e.preventDefault();
+    if (isUnchanged) return; 
+    
     setLoading(true);
-
     try {
       await authClient.updateUser({
         name: formData.name,
@@ -39,7 +43,9 @@ const ProfileUpdateForm = ({ initialData }) => {
     <form onSubmit={handleUpdate} className="space-y-8">
       {/* Name Field */}
       <div className="space-y-2">
-        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-5">Preferred Name</label>
+        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-5">
+          Preferred Name
+        </label>
         <div className="relative">
           <User className="absolute left-6 top-1/2 -translate-y-1/2 text-[#F7BCB0]" size={18} />
           <input 
@@ -54,7 +60,9 @@ const ProfileUpdateForm = ({ initialData }) => {
 
       {/* Avatar Field */}
       <div className="space-y-2">
-        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-5">Avatar URL</label>
+        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-5">
+          Avatar URL
+        </label>
         <div className="relative">
           <ImageIcon className="absolute left-6 top-1/2 -translate-y-1/2 text-[#F7BCB0]" size={18} />
           <input 
@@ -67,14 +75,23 @@ const ProfileUpdateForm = ({ initialData }) => {
       </div>
 
       <motion.button 
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        disabled={loading}
-        className={`w-full py-5 rounded-full font-black uppercase tracking-widest shadow-xl transition-all flex items-center justify-center gap-3 ${
-          loading ? "bg-slate-200 text-slate-400" : "bg-[#EAA624] text-white hover:bg-[#C85555]"
+        whileHover={!isUnchanged && !loading ? { scale: 1.02 } : {}}
+        whileTap={!isUnchanged && !loading ? { scale: 0.98 } : {}}
+        disabled={loading || isUnchanged}
+        className={`w-full py-5 rounded-full font-black uppercase tracking-widest shadow-xl transition-all duration-500 flex items-center justify-center gap-3 ${
+          isUnchanged || loading 
+            ? "bg-slate-100 text-slate-400 grayscale cursor-not-allowed shadow-none" 
+            : "bg-[#EAA624] text-white hover:bg-[#C85555] grayscale-0"
         }`}
       >
-        {loading ? "Saving..." : <><CheckCircle size={20} /> Update Now</>}
+        {loading ? (
+          "Saving..."
+        ) : (
+          <>
+            <CheckCircle size={20} /> 
+            {isUnchanged ? "No Changes Made" : "Update Now"}
+          </>
+        )}
       </motion.button>
     </form>
   );
@@ -107,9 +124,6 @@ const UpdateProfile = () => {
               Update <span className="text-[#EAA624]">Details</span>
             </h2>
           </div>
-
-          {/* By providing a key, we ensure the form re-initializes 
-              only when the session user actually changes. */}
           <ProfileUpdateForm key={session?.user?.id} initialData={session?.user} />
         </div>
       </motion.div>
