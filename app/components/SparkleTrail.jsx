@@ -30,8 +30,8 @@ export default function SparkleTrail() {
           size: Math.random() * 4 + 2,
           life: 1,
           // MAXIMUM VELOCITY: 20x multiplier for instant dispersion
-          speedX: (Math.random() - 0.5) * 20,
-          speedY: (Math.random() - 0.5) * 20,
+          speedX: (Math.random() - 0.5) * 12,
+          speedY: (Math.random() - 0.5) * 12,
           color: colors[Math.floor(Math.random() * colors.length)],
         });
       }
